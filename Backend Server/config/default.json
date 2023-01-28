@@ -1,6 +1,6 @@
 {
-  "platformPublicAddress": "0xd943E0fcf46e74126C7AfaA83A36CB592ef101f4",
-  "platformPrivateKey": "e841cd4dc200b1c5f46c1bbc57ef4c5803c32939679f1adabdf1abde440dddb4",
+  "platformPublicAddress": "0x04574D628bf2f4019a456574d6270b6B38b296Cb",
+  "platformPrivateKey": "f12e36bb6d0715c159de7df7fd02ed0e494c57e092e04d179e76e23eb3c098e5",
   "web3NetworkID": "HTTP://127.0.0.1:7545",
   "gasPrice": 21000
 }

@@ -8,6 +8,7 @@ const SignOut = () => {
   useEffect(() => {
     // clean user context and go back to the sign in screen
     setUser({});
+    localStorage.setItem("isLoggedIn",false)
     window.location.replace("/")
   })
   return (

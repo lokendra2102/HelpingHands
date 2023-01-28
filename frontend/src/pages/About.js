@@ -1,6 +1,10 @@
 import React from 'react';
 
 const About = () => {
+  const checker = () => {
+    alert("YES")
+    // window.location.href = "/"
+  }
   return (
     <div
       style={{
@@ -8,7 +12,7 @@ const About = () => {
         alignItems: 'left',
         height: '100%',
         padding: "0.2rem calc((100vw - 1000px) / 10)",
-        backgroundColor: "#f2f2f2"
+        backgroundColor: "#FDFFFC"
       }}
     >
       <h1>About the Product</h1>
@@ -36,6 +40,13 @@ const About = () => {
 
     </div>
   );
+  // if(localStorage.getItem("isLoggedIn")){
+  //   // checker()
+  //   return(
+  //     null
+  //   )
+  // }else{
+  // }
 };
 
 export default About;

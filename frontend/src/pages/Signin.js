@@ -21,9 +21,11 @@ export default function Signin() {
     // attempt to sign in with the provided data
     axios.post(process.env.REACT_APP_BACKEND_URL + '/users/login', {
       "email": email,
+      "password" : password
   }, {}).then((response) => {
       setUser(response.data)
       history.push("/about")
+      localStorage.setItem("isLoggedIn",true)
     })
       .catch((error) => {
           console.log(error)

@@ -8,7 +8,7 @@ import { userContext } from '../userContext';
 
 const Nav = styled.nav`
   background: #2d2d2d;
-  height: 85px;
+  height: 50px;
   display: flex;
   justify-content: space-between;
   padding: 0.2rem calc((100vw - 1000px) / 10);
@@ -22,6 +22,8 @@ const NavLink = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
   padding: 0 1rem;
   height: 100%;
   cursor: pointer;
@@ -61,7 +63,7 @@ const NavMenu = styled.div`
 const NavBtn = styled.nav`
   display: flex;
   align-items: center;
-  margin-right: 24px;
+  margin-right: 10px;
   /* Third Nav */
   /* justify-content: flex-end;
   width: 100vw; */
@@ -73,13 +75,15 @@ const NavBtn = styled.nav`
 const NavBtnLink = styled(Link)`
   border-radius: 4px;
   background: #808080;
-  padding: 10px 22px;
+  padding: 8px 30px;
   color: #fff;
   outline: none;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 3px;
   /* Second Nav */
   margin-left: 24px;
   &:hover {
@@ -96,6 +100,11 @@ const Navbar = () => {
   return (
     <>
       <Nav>
+        <NavMenu>
+          <NavLink to='/none' style={{ fontSize : 20 }} >
+            helping hands
+          </NavLink>
+        </NavMenu>
         <Bars />
 
         <NavMenu>
