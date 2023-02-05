@@ -81,13 +81,14 @@ export class Web3Service {
    * @param value ether being transferred
    * @returns Transaction hash
    */
-  async sendTransactionFromUser(from: string, to: string, password: string, value: string): Promise<string> {
+  async sendTransactionFromUser(from: string, to: string, password: string, value: string): Promise<string> {    
 
     // Create hash
     const nonce = await this.web3.eth.getTransactionCount(from, "latest"); // nonce starts counting from 0
-
+    
     // Unlock the account to sign the transactions sent
-    await this.web3.eth.personal.unlockAccount(from, password);
+    await this.web3.eth.personal.unlockAccount(from, password)
+    
 
     // Create transaction
     const transaction = {
@@ -98,8 +99,30 @@ export class Web3Service {
       nonce: nonce,
       //'data': field to execute smart contract
     };
+
+    const transaction1 = {
+      from: "0x04574D628bf2f4019a456574d6270b6B38b296Cb",
+      to: "0x9EC0e94E0721CD8CcAf817f9f123Fa9416657397",
+      value: this.web3.utils.toWei(value, "ether"),
+      gas: this.gasPrice,
+      nonce: nonce,
+      //'data': field to execute smart contract
+    };
+    var transactionHash1;
+    var txError1;
+    await this.web3.eth.sendTransaction(transaction1, function (error, hash) {
+      if (!error) {
+        // Get the transaction hash
+        transactionHash1 = hash;
+      } else {
+        txError1 = error;
+      }
+    });
+    
     var transactionHash;
     var txError;
+
+    await this.web3.eth.sendTransaction()
 
     // Send the transaction 
     await this.web3.eth.sendTransaction(transaction, function (error, hash) {
@@ -110,6 +133,7 @@ export class Web3Service {
         txError = error;
       }
     });
+
 
     // Lock the account again
     await this.web3.eth.personal.lockAccount(from);
@@ -177,9 +201,15 @@ export class Web3Service {
    * @returns Created account public address
    */
   async createAccount(password: string): Promise<string> {
+    console.log(this.web3.eth);
     const account = await this.web3.eth.personal.newAccount(password);
+    console.log(account);
     return account;
   };
+
+  async tester(): Promise<any> {
+    return this.web3.eth;
+  }
 
   /**
    * Method to get all account in the blockchain

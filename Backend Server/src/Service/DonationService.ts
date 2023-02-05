@@ -48,6 +48,37 @@ export class DonationService {
    * @returns Donation made
    */
   async donate(donationDTO: DonationDTO): Promise<DonationDTO> {
+    // const CryptoAccount = require('send-crypto');
+    // const ganache = require("ganache");
+    // console.log(ganache.provider());
+
+    // const privateKey : any = "37a418c51544c3a5c216a3c098cf8290ecc98f1dfb7d598d75931fff48dce221";
+    // const account : any =   new CryptoAccount(privateKey,{
+    //   network : "HTTP://192.168.1.5:4444"
+    // });
+
+    // console.log(await account.address("ETH"));
+
+    // await account.getBalanceInSats("ETH")
+    // .then(data => {
+    //   console.log(data);
+    // })
+    // .catch(e => {
+    //   console.log(e);
+    // })
+
+    // await account
+    //     .send("0x9EC0e94E0721CD8CcAf817f9f123Fa9416657397", 10, "ETH")
+    //     .on("transactionHash", (data) => {
+    //       console.log(data + "    t");
+    //     })
+    //     .on("confirmation", (data) => {
+    //       console.log(data);
+    //     })
+    //     .catch(e => {
+    //       console.log(e);
+    //     })
+
     const donation: Donation = DonationMapper.dto2Domain(donationDTO);
     let donator: User = await this.userRepository.findById(
       donation.getDonatorID()
