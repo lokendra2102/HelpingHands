@@ -1,6 +1,12 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 const About = () => {
+  const isUserLoggedIn = window.localStorage.getItem("isLoggedIn");
+  console.log(isUserLoggedIn);
+  if(!isUserLoggedIn){
+    return <Redirect to={"/Signin"}/>
+  }
   const checker = () => {
     alert("YES")
     // window.location.href = "/"

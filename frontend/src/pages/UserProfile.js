@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { List, ListItem, Divider, Typography, ListItemText } from '@mui/material';
 import axios from "axios";
-import { useParams } from 'react-router-dom';
+import { useParams,Redirect } from 'react-router-dom';
 import Modal from 'react-modal';
 import { userContext } from '../userContext';
 
 const UserProfile = () => {
-
+    
     const { user, setUser } = useContext(userContext)
     const [donations, setDonations] = useState([])
 
@@ -46,9 +46,14 @@ const UserProfile = () => {
             setUser(userAux);
             closeModal()
         })
-            .catch((error) => {
-                console.log(error)
-            });
+        .catch((error) => {
+            console.log(error)
+        });
+    }
+    const isUserLoggedIn = window.localStorage.getItem("isLoggedIn") ;
+    console.log(isUserLoggedIn)
+    if(!isUserLoggedIn){
+      return <Redirect to={"/Signin"}/>
     }
     return (
         <div
@@ -57,20 +62,20 @@ const UserProfile = () => {
                 alignItems: 'left',
                 height: '100vh',
                 padding: "0.2rem calc((100vw - 1000px) / 7)",
-                backgroundColor: "#f2f2f2"
+                backgroundColor: "#FDFFFC"
             }}
         >
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
                 contentLabel="Add Funds"
-                style={{ content: { marginTop: "7%", marginBottom: "7%", marginLeft: "25%", marginRight: "25%" } }}
+                style={{ content: { marginTop: "7%", marginBottom: "20%", marginLeft: "30%", marginRight: "30%" } }}
             >
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h2>Add Funds</h2>
 
-                    <button onClick={closeModal} style={{ backgroundColor: "#3c3c3c", color: "#fff", width: "10%", height: "50px" }}>Close</button>
+                    <button onClick={closeModal} style={{}} className="bg-dark text-light px-3 py-2 border rounded" >Close</button>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <p>Value (ETH):    </p>
@@ -84,28 +89,35 @@ const UserProfile = () => {
             {user != null ?
                 <>
 
-                    <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2%" }}>
-                        <h2>{user.name}</h2>
-                        <button onClick={openModal} style={{ backgroundColor: "#3c3c3c", color: "#fff", width: "7%", height: "50px" }}>
-                            Add Funds
-                        </button>
+                    <div className='border border-2 rounded p-4 mt-4 shadow ' style={{backgroundColor: "#f7f7ff"}}>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            <h2>{user.name}</h2>
+                            <button onClick={openModal} style={{ backgroundColor: "#3c3c3c", color: "#fff" }}
+                                className = 'border rounded px-3'
+                            >
+                                Add Funds
+                            </button>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#FDFFFC" }} className='my-3 shadow-sm p-3' >
+                            <h5>Current Ether:<span style={{ fontWeight: '400' }}> {user.currentEther}  </span></h5>
+                            <h5>Total number of donations made:<span style={{ fontWeight: '400' }}> {user.donationsSentCounter}</span></h5>
+                            <h5>Total value sent in donations:<span style={{ fontWeight: '400' }}> {user.totalCoinDonated} </span></h5>
+                        </div>
+                        <div className='shadow-sm p-3 mt-3' style={{backgroundColor:"#FDFFFC"}}>    
+                            <h5>Email: <span style={{ fontWeight: '400' }}>{user.email}</span></h5>
+                            <h5>Public Address: <span style={{ fontWeight: '400' }}>{user.publicAddress}</span></h5>
+                        </div>
                     </div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }} >
-                        <h5>Current Ether:<span style={{ fontWeight: '400' }}> {user.currentEther}  </span></h5>
-                        <h5>Total number of donations made:<span style={{ fontWeight: '400' }}> {user.donationsSentCounter}</span></h5>
-                        <h5>Total value sent in donations:<span style={{ fontWeight: '400' }}> {user.totalCoinDonated} </span></h5>
-                    </div>
 
-                    <h5>Email: <span style={{ fontWeight: '400' }}>{user.email}</span></h5>
-                    <h5>Public Address: <span style={{ fontWeight: '400' }}>{user.publicAddress}</span></h5>
+                    <h3 style={{ marginTop: '3%' }} className='text-center text-decoration-underline'>Donations</h3>
 
-                    <h3 style={{ marginTop: '3%' }}>Donations</h3>
-
-                    <List sx={{ bgcolor: '#f2f2f2' }}>
+                    <List sx={{ bgcolor: '#FDFFFC' }}>
                         {donations.map((donation) => {
                             return (
                                 <>
-                                    <ListItem alignItems="flex-start" style={{ backgroundColor: "#f2f2f2" }} >
+                                    <ListItem alignItems="flex-start" style={{ backgroundColor: "#FDFFFC" }} 
+                                        className='shadow mt-3'
+                                    >
                                         <ListItemText
                                             primary={"Donation ID: " + donation.id}
                                             secondary={
@@ -117,15 +129,13 @@ const UserProfile = () => {
                                                         color="text.primary"
                                                     >
                                                         Donation Value: {donation.value}
-                                                    </Typography> <p>
+                                                    </Typography> <p className='p-0 m-0'>
                                                         Donation Description: {donation.description}
                                                     </p>
                                                 </React.Fragment>
                                             }
                                         />
                                     </ListItem>
-                                    <Divider variant="middle" component="li" />
-                                    <Divider variant="middle" component="li" />
                                 </>
                             )
                         })}

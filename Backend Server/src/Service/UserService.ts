@@ -37,14 +37,11 @@ export class UserService {
    */
   async createUser(userDTO: UserDTO): Promise<UserDTO> {
     const userDomain: User = UserMapper.dto2Domain(userDTO);
-    const userId = userDomain.getID();
-    var userDomainResponse : User;
 
-    const usernameExistsCheck = await this.getUserById(userId);
     // Create the user account in the blockchain using his password and get his public address
     let publicAddress: string = await this.web3Service.createAccount(userDomain.getPassword().getPassword());
     userDomain.setPublicAddress(publicAddress);
-    userDomainResponse = await this.userRepository.save(userDomain);
+    const userDomainResponse: User = await this.userRepository.save(userDomain);
     const userResponseDTO: UserDTO = UserMapper.domain2Dto(userDomainResponse);
     return userResponseDTO;
   }
@@ -130,7 +127,6 @@ export class UserService {
     const userResponseDomain: User = await this.userRepository.findByEmail(email);
     if (userResponseDomain.getPassword().getPassword() === password) {
       const userResponseDTO: UserDTO = UserMapper.domain2Dto(userResponseDomain);
-      await this.userRepository.updateAccountAddress(userResponseDomain);
       return userResponseDTO;
     }
 

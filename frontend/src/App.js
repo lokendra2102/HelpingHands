@@ -11,6 +11,7 @@ import SignIn from './pages/Signin';
 import { userContext } from './userContext';
 import SignOut from './pages/Signout';
 import UserProfile from './pages/UserProfile';
+import Signup from './pages/Signup';
 
 function App() {
   const [user, setUser] = useState('');
@@ -29,6 +30,7 @@ function App() {
           <Route path='/institutions' component={InstitutionsList} />
           <Route path='/signout' component={SignOut} />
           <Route path='/signin' component={SignIn} />
+          <Route path='/signup' exact component={Signup} />
           <Route path='/userProfile/:id' component={UserProfile} />
           <Route path={`/institution/:id`} exact component={Institution} />
           <Route path={`/institutionProfile/:id`} exact component={InstitutionProfile} />

@@ -65,11 +65,6 @@ export interface IUserRepository extends IRepository {
   addFunds(user: User, amount: number): Promise<boolean>
 
   /**
-   * @param user User to update details to
-   */
-  updateAccountAddress(user : User): Promise<User>
-  
-  /**
    * Remove ether from user
    * @param user User getting ether removed
    * @param amount Amount of ether

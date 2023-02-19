@@ -48,81 +48,11 @@ export class DonationService {
    * @returns Donation made
    */
   async donate(donationDTO: DonationDTO): Promise<DonationDTO> {
-    // const CryptoAccount = require('send-crypto');
-    // const ganache = require("ganache");
-    // console.log(ganache.provider());
-
-    // const privateKey : any = "37a418c51544c3a5c216a3c098cf8290ecc98f1dfb7d598d75931fff48dce221";
-    // const account : any =   new CryptoAccount(privateKey,{
-    //   network : "HTTP://192.168.1.5:4444"
-    // });
-
-    // console.log(await account.address("ETH"));
-
-    // await account.getBalanceInSats("ETH")
-    // .then(data => {
-    //   console.log(data);
-    // })
-    // .catch(e => {
-    //   console.log(e);
-    // })
-
-    // await account
-    //     .send("0x9EC0e94E0721CD8CcAf817f9f123Fa9416657397", 10, "ETH")
-    //     .on("transactionHash", (data) => {
-    //       console.log(data + "    t");
-    //     })
-    //     .on("confirmation", (data) => {
-    //       console.log(data);
-    //     })
-    //     .catch(e => {
-    //       console.log(e);
-    //     })
-
-    const { ethers } = require('ethers');
     const donation: Donation = DonationMapper.dto2Domain(donationDTO);
-    const url = "HTTP://127.0.0.1:7545";
-
-    const provider:any = new ethers.providers.JsonRpcProvider(url);
-    const signer:any = provider.getSigner();
-    console.log(signer);
-    const block:any = await provider.getBlockNumber();
-    console.log(block);
-
-    //checking balance
-    const address:string = '0xa291483188634E9Fd6542a830aF24B356F891401'
-    provider.getBalance(address).then((balance) => {
-      // convert a currency unit from wei to ether
-      const balanceInEth = ethers.utils.formatEther(balance)
-      console.log(`balance: ${balanceInEth} ETH`)
-    })
-
-    //trans history
-    let historyProvider = new ethers.providers.EtherscanProvider();
-    let history = await historyProvider.getHistory(address);
-    console.log(history)
-
-    let privateKey = 'c0080aa46a7a09d5c31c2cce2dd8e1a10fba89148e79deb0e8d680c81a0255c0'
-    let wallet = new ethers.Wallet(privateKey, provider)
-    let receiverAddress = '0x5C00E3a54A30ba23f7a1e5f6261a105Ffe31B0C7'
-    let amountInEther = '134'
-    let tx = {
-        to: receiverAddress,
-        value: ethers.utils.parseEther(amountInEther)
-    }
-    let bal = await wallet.getBalance();
-    bal = ethers.utils.formatEther( bal )
-    console.log(wallet, bal);
-    
-    // Send a transaction
-    wallet.sendTransaction(tx)
-    .then((txObj:any) => {
-        console.log('txHash', txObj.hash)
-    })
-
     let donator: User = await this.userRepository.findById(
       donation.getDonatorID()
     );
+    console.log(donator);
     let association: User = await this.userRepository.findById(
       donation.getAssociationId()
     );

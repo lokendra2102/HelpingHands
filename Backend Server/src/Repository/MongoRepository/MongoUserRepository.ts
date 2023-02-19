@@ -7,14 +7,9 @@ import { injectable } from "inversify";
 import { Expenditure } from "../../Domain/User/Expenditure";
 import { IExpenditureModel } from "../../Model/ExpenditureModel";
 import { ExpenditureMapper } from "../../Mapper/ExpenditureMapper";
-import { Web3Service } from "../../Web3/Web3Service";
 
 @injectable()
 export class MongoUserRepository implements IUserRepository {
-  private web3Service: Web3Service;
-  constructor() {
-    this.web3Service = new Web3Service();
-  }
   async findById(id: string): Promise<User> {
     const foundUserPromise: IUserModel = await userDB.findById(id).catch((err) => {
       throw new Error(err);
@@ -75,20 +70,6 @@ export class MongoUserRepository implements IUserRepository {
 
     await userDB.updateOne({}, userModelSearch).exec();
 
-    const userRet: User = UserMapper.model2Domain(userModelSearch);
-
-    return userRet;
-  }
-
-  async updateAccountAddress(user: User): Promise<User> {
-    var userModelSearch: IUserModel = await userDB.findById(user.getID()).catch((err) => {
-      throw new Error(err);
-    });
-    let publicAddress1: any = await this.web3Service.createAccount(user.getPassword().getPassword());
-    userModelSearch.publicAddress = publicAddress1;
-    await userDB.findByIdAndUpdate(user.getID(), userModelSearch).catch((err) => {
-      throw new Error(err);
-    });
     const userRet: User = UserMapper.model2Domain(userModelSearch);
 
     return userRet;
